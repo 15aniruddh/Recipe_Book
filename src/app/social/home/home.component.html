@@ -1,0 +1,88 @@
+<div class="home-header">
+  <div>
+    <p class="greeting">Welcome back</p>
+    <h1>{{ displayName }}</h1>
+  </div>
+
+  <div class="header-actions">
+    <div class="notif-wrap">
+      <button type="button" class="notif-btn" (click)="toggleNotifications()" aria-label="Notifications">
+        <i class="bi bi-bell"></i>
+        <span class="notif-badge" *ngIf="notifications.length">{{ notifications.length }}</span>
+      </button>
+
+      <ng-container *ngIf="showNotifications">
+        <div class="notif-backdrop" (click)="closeNotifications()"></div>
+        <div class="notif-dropdown">
+          <div class="notif-dropdown-head">
+            <h3>Notifications</h3>
+            <a class="clear-link" (click)="onClearNotifications()" *ngIf="notifications.length">Clear all</a>
+          </div>
+
+          <div class="notif-row" *ngFor="let n of notifications">
+            <span class="dot"></span>
+            <div>
+              <p class="notif-message">{{ n.message }}</p>
+              <p class="notif-time text-muted">{{ n.timestamp }}</p>
+            </div>
+          </div>
+
+          <p class="notif-empty text-muted" *ngIf="!notifications.length">You're all caught up!</p>
+        </div>
+      </ng-container>
+    </div>
+
+    <a routerLink="/profile" *ngIf="isAuthenticated" aria-label="Profile">
+      <app-avatar [name]="displayName" [size]="48"></app-avatar>
+    </a>
+    <a routerLink="/auth" class="pill-btn primary login-btn" *ngIf="!isAuthenticated">Login</a>
+  </div>
+</div>
+
+<!-- Hero banner -->
+<div class="home-hero">
+  <div class="home-hero-text">
+    <p class="eyebrow">What's cooking today?</p>
+    <h2>Discover &amp; cook<br />delicious recipes</h2>
+    <a routerLink="/recipes" class="hero-cta">
+      <i class="bi bi-search"></i> Find a recipe
+    </a>
+  </div>
+  <div class="home-hero-image" [style.backgroundImage]="heroImage ? 'url(' + heroImage + ')' : null"></div>
+</div>
+
+<!-- Quick access -->
+<div class="quick-tiles">
+  <a routerLink="/recipes" class="quick-tile">
+    <div class="tile-icon" style="background: var(--tint-recipes-bg); color: var(--tint-recipes-fg);">
+      <i class="bi bi-journal-bookmark-fill"></i>
+    </div>
+    <span>Recipes</span>
+  </a>
+  <a routerLink="/favourites" class="quick-tile">
+    <div class="tile-icon" style="background: #fdecec; color: var(--color-danger);">
+      <i class="bi bi-heart-fill"></i>
+    </div>
+    <span>Favourites</span>
+  </a>
+  <a routerLink="/uploads" class="quick-tile">
+    <div class="tile-icon" style="background: var(--tint-uploads-bg); color: var(--tint-uploads-fg);">
+      <i class="bi bi-cloud-arrow-up-fill"></i>
+    </div>
+    <span>Uploads</span>
+  </a>
+</div>
+
+<!-- Popular dishes -->
+<div class="section-head">
+  <h2>Popular dishes</h2>
+  <a class="see-all" routerLink="/recipes/results">See all <i class="bi bi-arrow-right"></i></a>
+</div>
+<div class="grid-2col featured-grid">
+  <app-card-grid-item
+    *ngFor="let item of featured"
+    [image]="item.recipe.imagePath"
+    [title]="item.recipe.name"
+    [link]="['/recipes', item.index]"
+  ></app-card-grid-item>
+</div>

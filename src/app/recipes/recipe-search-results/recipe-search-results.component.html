@@ -1,0 +1,63 @@
+<div class="explore-page">
+  <div class="explore-top">
+    <button type="button" class="back-btn" routerLink="/recipes" aria-label="Back">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+  </div>
+
+  <!-- Hero banner -->
+  <div class="hero-banner">
+    <div class="hero-text">
+      <h1>Explore<br /><span class="accent">Culinary</span> Insights</h1>
+      <p *ngIf="isSearch" class="hero-sub">Results for “{{ query }}”</p>
+    </div>
+    <div class="hero-image"></div>
+  </div>
+
+  <!-- Category filter -->
+  <h2 class="cook-heading">What to <span class="accent">Cook</span>?</h2>
+  <div class="chips-row" *ngIf="!isSearch">
+    <button
+      type="button"
+      class="cat-chip"
+      *ngFor="let cat of categories"
+      [class.active]="cat === activeCategory"
+      (click)="onSelectCategory(cat)"
+    >
+      <i class="bi bi-egg-fried" *ngIf="cat === 'All Types'"></i>
+      {{ cat }}
+    </button>
+  </div>
+  <p class="results-count" *ngIf="isSearch">{{ results.length }} recipe(s) found</p>
+
+  <!-- Recipe cards -->
+  <div class="cards-grid" *ngIf="results.length; else empty">
+    <article class="recipe-card" *ngFor="let item of results">
+      <div class="recipe-card-head">
+        <h3>{{ item.recipe.name }}</h3>
+        <button
+          type="button"
+          class="fav-toggle"
+          [class.active]="isFavourite(item.recipe.name)"
+          (click)="onToggleFavourite(item.recipe.name)"
+          aria-label="Toggle favourite"
+        >
+          <i class="bi" [class.bi-heart-fill]="isFavourite(item.recipe.name)" [class.bi-heart]="!isFavourite(item.recipe.name)"></i>
+        </button>
+      </div>
+
+      <div class="recipe-card-image" [style.backgroundImage]="'url(' + item.recipe.imagePath + ')'">
+        <span class="views-badge"><i class="bi bi-eye"></i> {{ item.views }}</span>
+      </div>
+
+      <a class="see-recipe" [routerLink]="['/recipes', item.index]">
+        See Complete Recipe
+        <span class="see-recipe-arrow"><i class="bi bi-arrow-right"></i></span>
+      </a>
+    </article>
+  </div>
+
+  <ng-template #empty>
+    <p class="empty-state text-muted">No recipes found in this category.</p>
+  </ng-template>
+</div>

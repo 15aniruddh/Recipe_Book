@@ -1,0 +1,27 @@
+<app-top-bar title="Uploads" [backLink]="['/home']">
+  <button type="button" class="icon-btn" (click)="onFetch()" [disabled]="isSyncing" title="Fetch from cloud">
+    <i class="bi bi-cloud-download"></i>
+  </button>
+  <button type="button" class="icon-btn" (click)="onSave()" [disabled]="isSyncing" title="Save to cloud">
+    <i class="bi bi-cloud-upload"></i>
+  </button>
+  <a routerLink="/recipes/new" class="icon-btn" title="New recipe">
+    <i class="bi bi-plus-lg"></i>
+  </a>
+</app-top-bar>
+
+<div class="uploads-body">
+  <div class="grid-2col" *ngIf="uploadedRecipes.length; else empty">
+    <app-card-grid-item
+      *ngFor="let recipe of uploadedRecipes; let i = index"
+      [image]="recipe.imagePath"
+      [title]="recipe.name"
+      [link]="['/recipes', i]"
+    ></app-card-grid-item>
+  </div>
+
+  <ng-template #empty>
+    <p class="text-muted empty-state">No uploads yet.</p>
+    <a class="explore-link" routerLink="/recipes/new">Upload your first recipe</a>
+  </ng-template>
+</div>

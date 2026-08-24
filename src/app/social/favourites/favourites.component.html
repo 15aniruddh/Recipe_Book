@@ -1,0 +1,23 @@
+<app-top-bar title="Favourites" [backLink]="['/home']">
+  <div class="logo-badge"><i class="bi bi-egg-fried"></i></div>
+</app-top-bar>
+
+<div class="favourites-body">
+  <div class="grid-2col" *ngIf="favouriteRecipes.length; else empty">
+    <app-card-grid-item
+      *ngFor="let item of favouriteRecipes"
+      [image]="item.recipe.imagePath"
+      [title]="item.recipe.name"
+      [link]="['/recipes', item.index]"
+      [showHeart]="true"
+      [favourite]="true"
+      (heartClick)="onToggleFavourite(item.recipe.name)"
+    ></app-card-grid-item>
+  </div>
+
+  <ng-template #empty>
+    <p class="text-muted empty-state">No favourites yet — tap the heart on any recipe to save it here.</p>
+  </ng-template>
+
+  <a class="explore-link" routerLink="/recipes/results">Explore more recipes</a>
+</div>

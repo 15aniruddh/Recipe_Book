@@ -1,0 +1,31 @@
+<ng-container *ngIf="link?.length; else plain">
+  <a class="grid-card" [routerLink]="link">
+    <ng-container *ngTemplateOutlet="cardBody"></ng-container>
+  </a>
+</ng-container>
+<ng-template #plain>
+  <div class="grid-card">
+    <ng-container *ngTemplateOutlet="cardBody"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #cardBody>
+  <div
+    class="grid-card-image"
+    [class.placeholder]="!image"
+    [style.backgroundImage]="image ? 'url(' + image + ')' : null"
+  >
+    <i class="bi bi-image placeholder-icon" *ngIf="!image"></i>
+    <button
+      type="button"
+      class="heart-btn"
+      *ngIf="showHeart"
+      [class.active]="favourite"
+      (click)="onHeartClick($event)"
+      aria-label="Toggle favourite"
+    >
+      <i class="bi" [class.bi-heart-fill]="favourite" [class.bi-heart]="!favourite"></i>
+    </button>
+  </div>
+  <div class="grid-card-title">{{ title }}</div>
+</ng-template>

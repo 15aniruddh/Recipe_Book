@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { Recipe } from './recipe.model';
+import { SEED_RECIPES } from './seed-recipes';
 
 @Injectable({ providedIn: 'root' })
 export class RecipeService {
@@ -11,11 +12,12 @@ export class RecipeService {
 
   constructor(private slService: ShoppingListService) {}
 
-  private recipes: Recipe[] = [];
-  //     new Recipe('Pasta', 'This is a Awesome Pasta', 'https://imgs.search.brave.com/LyeAywr3Zu_ZAGtbzbZdx24X7FzmouE7oxIa4oavbW4/rs:fit:713:225:1/g:ce/aHR0cHM6Ly90c2Ux/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5j/U3FGaHc5V2R4Y1gw/Tjl3ZE5NZk5nSGFF/NyZwaWQ9QXBp', [
-  //         new Ingredient('Pasta', 2)
-  //     ])
-  // ];
+  // Seeded with demo recipes so the app has content to browse out of the box.
+  private recipes: Recipe[] = [...SEED_RECIPES];
+
+  // Holds a recipe a guest tried to save before authenticating, so it can be
+  // committed once they log in. { id: null } means "add new".
+  pendingRecipe: { id: number | null; recipe: Recipe } | null = null;
 
   getRecipes() {
     return this.recipes.slice();
@@ -47,5 +49,22 @@ export class RecipeService {
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
     this.slService.addIngredients(ingredients);
+  }
+
+  // Commits a recipe that was stashed while the user was a guest. Returns the
+  // index of the saved recipe so callers can navigate to it, or null if there
+  // was nothing pending.
+  commitPendingRecipe(): number | null {
+    if (!this.pendingRecipe) {
+      return null;
+    }
+    const { id, recipe } = this.pendingRecipe;
+    this.pendingRecipe = null;
+    if (id === null) {
+      this.addRecipe(recipe);
+      return this.recipes.length - 1;
+    }
+    this.updateRecipe(id, recipe);
+    return id;
   }
 }

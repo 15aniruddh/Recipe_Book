@@ -1,0 +1,43 @@
+.shopping-list-body {
+  margin: 0 16px 24px;
+  padding: 20px;
+}
+
+.ingredient-list {
+  margin-top: 10px;
+}
+
+.ingredient-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+  text-decoration: none;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 20px 0;
+}
+
+@media (min-width: 900px) {
+  .shopping-list-body {
+    margin: 0 24px 24px;
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    column-gap: 36px;
+    align-items: start;
+  }
+
+  .shopping-list-body app-shopping-edit {
+    position: sticky;
+    top: 24px;
+  }
+
+  .ingredient-list {
+    margin-top: 0;
+  }
+}

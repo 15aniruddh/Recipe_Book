@@ -1,0 +1,9 @@
+<div
+  class="avatar-circle"
+  [style.width.px]="size"
+  [style.height.px]="size"
+  [style.fontSize.px]="size / 2.4"
+>
+  <img *ngIf="imageUrl" [src]="imageUrl" alt="{{ name }}" />
+  <span *ngIf="!imageUrl">{{ initials }}</span>
+</div>

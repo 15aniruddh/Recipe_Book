@@ -1,0 +1,9 @@
+<div class="top-bar" [class.light]="light">
+  <button type="button" class="back-btn" (click)="onBack()" aria-label="Go back">
+    <i class="bi bi-arrow-left"></i>
+  </button>
+  <h2>{{ title }}</h2>
+  <div class="top-bar-actions">
+    <ng-content></ng-content>
+  </div>
+</div>

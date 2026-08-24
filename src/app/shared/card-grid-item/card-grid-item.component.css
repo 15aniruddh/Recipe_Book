@@ -1,0 +1,55 @@
+.grid-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.grid-card-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.1 / 1;
+  border-radius: 18px;
+  background-size: cover;
+  background-position: center;
+  background-color: #eee;
+}
+
+.grid-card-image.placeholder {
+  background: linear-gradient(135deg, #dfeee4, #cfe3f7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-icon {
+  font-size: 28px;
+  color: #8ba3b8;
+}
+
+.grid-card-title {
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.heart-btn {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  color: #c9c9cf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+.heart-btn.active {
+  color: var(--color-danger);
+}
