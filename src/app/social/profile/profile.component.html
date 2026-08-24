@@ -1,0 +1,63 @@
+<div class="profile-hero">
+  <app-top-bar title="" [backLink]="['/home']" [light]="true">
+    <button type="button" class="pill-btn light edit-btn" *ngIf="isAuthenticated" (click)="isEditing ? onSave() : onEdit()">
+      {{ isEditing ? 'Save' : 'Edit' }}
+    </button>
+    <a routerLink="/auth" class="pill-btn light edit-btn" *ngIf="!isAuthenticated">Login</a>
+  </app-top-bar>
+
+  <div class="profile-identity">
+    <app-avatar [name]="displayName" [size]="96"></app-avatar>
+    <h1>{{ displayName }}</h1>
+
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-value">{{ favouritesCount }}</span>
+        <span class="stat-label">FAVOURITES</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">{{ uploadsCount }}</span>
+        <span class="stat-label">UPLOADS</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-surface profile-body">
+  <h3>About</h3>
+  <p *ngIf="!isEditing" class="text-muted">{{ about }}</p>
+  <textarea
+    *ngIf="isEditing"
+    class="about-input"
+    rows="4"
+    [(ngModel)]="aboutDraft"
+    [ngModelOptions]="{ standalone: true }"
+  ></textarea>
+
+  <h3>Likes</h3>
+  <div class="likes-row">
+    <span class="chip" *ngFor="let like of likes">
+      {{ like }}
+      <i class="bi bi-x" *ngIf="isEditing" (click)="onRemoveLike(like)"></i>
+    </span>
+  </div>
+
+  <div class="add-like-row" *ngIf="isEditing">
+    <input
+      type="text"
+      class="add-like-input"
+      placeholder="Add a like"
+      [(ngModel)]="newLike"
+      [ngModelOptions]="{ standalone: true }"
+      (keyup.enter)="onAddLike()"
+    />
+    <button type="button" class="pill-btn primary" (click)="onAddLike()">Add</button>
+  </div>
+
+  <button type="button" class="logout-link" *ngIf="isAuthenticated" (click)="onLogout()">
+    <i class="bi bi-box-arrow-right"></i> Logout
+  </button>
+  <a routerLink="/auth" class="login-cta" *ngIf="!isAuthenticated">
+    <i class="bi bi-box-arrow-in-right"></i> Login or create an account
+  </a>
+</div>

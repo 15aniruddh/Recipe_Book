@@ -1,69 +1,64 @@
-<div class="row">
-    <div class="col-xs-12">
-        <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
-            <div class="row">
-                <div class="col-xs-12">
-                    <button type="submit" class="btn btn-success col-2 m-2 mt-1" [disabled]="!recipeForm.valid">Save</button>
-                    <button type="button" class="btn btn-danger col-2 m-2 mt-1" (click)="onCancel()">Cancel</button>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="name" class="fw-bold">Name</label>
-                        <input type="text" class="form-control" formControlName="name">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="imagePath" class="fw-bold">Image URL</label>
-                        <input type="text" class="form-control" formControlName="imagePath" #imagePath>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <img [src]="imagePath.value" class="img-responsive">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="description" class="fw-bold">Description</label>
-                        <textarea type="text" class="form-control" rows="6" formControlName="description"></textarea>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-12" formArrayName="ingredients">
-                    <div class="row" *ngFor="let ingredientCtrl of ingredientsControls; let i = index"
-                        [formGroupName]="i" style="margin-top: 10px; margin-bottom: 10px;">
-                        <div class="col-8">
-                            <input type="text" class="form-control" formControlName="name" />
-                        </div>
-                        <div class="col-2">
-                            <input type="number" class="form-control" formControlName="amount" />
-                        </div>
-                        <div class="col-2">
-                            <button type="button" class="btn btn-danger" (click)="onDeleteIngredient(i)">Delete</button>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-12">
-                            <button type="button" class="btn btn-success" (click)="onAddIngredient()">Add
-                                Ingredients</button>
-                            <hr>                        
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+<app-top-bar [title]="editMode ? 'Edit Recipe' : 'New Recipe'" [backLink]="['/recipes']"></app-top-bar>
+
+<div class="card-surface edit-body">
+  <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    <div class="edit-columns">
+      <div class="edit-col">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="text-input" formControlName="name"
+                 [class.invalid]="recipeForm.get('name').invalid && recipeForm.get('name').touched">
+          <small class="field-error" *ngIf="recipeForm.get('name').invalid && recipeForm.get('name').touched">
+            Please enter a recipe name.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Image URL <span class="optional">(optional)</span></label>
+          <input type="text" class="text-input" formControlName="imagePath" #imagePath>
+        </div>
+
+        <div class="image-preview" *ngIf="imagePath.value">
+          <img [src]="imagePath.value" alt="Recipe preview">
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea class="text-input" rows="5" formControlName="description"
+                    [class.invalid]="recipeForm.get('description').invalid && recipeForm.get('description').touched"></textarea>
+          <small class="field-error" *ngIf="recipeForm.get('description').invalid && recipeForm.get('description').touched">
+            Please add a description / directions.
+          </small>
+        </div>
+      </div>
+
+      <div class="edit-col">
+        <div formArrayName="ingredients" class="ingredients-editor">
+          <label>Ingredients</label>
+          <div class="ingredient-row" *ngFor="let ingredientCtrl of ingredientsControls; let i = index" [formGroupName]="i">
+            <input type="text" class="text-input" placeholder="Name" formControlName="name"
+                   [class.invalid]="ingredientCtrl.get('name').invalid && ingredientCtrl.get('name').touched" />
+            <input type="number" step="any" min="0" class="text-input amount-input" placeholder="Amount" formControlName="amount"
+                   [class.invalid]="ingredientCtrl.get('amount').invalid && ingredientCtrl.get('amount').touched" />
+            <button type="button" class="icon-delete-btn" (click)="onDeleteIngredient(i)" aria-label="Remove ingredient">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+
+          <button type="button" class="pill-btn light add-ingredient-btn" (click)="onAddIngredient()">
+            <i class="bi bi-plus-lg"></i> Add Ingredient
+          </button>
+        </div>
+      </div>
     </div>
+
+    <p class="form-error-summary" *ngIf="recipeForm.invalid && recipeForm.touched">
+      <i class="bi bi-exclamation-circle"></i> Please fill the required fields and use valid amounts (e.g. 1, 0.5, 2).
+    </p>
+
+    <div class="form-actions">
+      <button type="submit" class="pill-btn primary">Save</button>
+      <button type="button" class="pill-btn light" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
 </div>

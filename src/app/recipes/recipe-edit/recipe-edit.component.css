@@ -1,4 +1,129 @@
-input.ng-invalid.ng-touched,
-textarea.ng-invalid.ng-touched {
-    border: 1px solid red
+.edit-body {
+  margin: 0 16px 24px;
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label,
+.ingredients-editor > label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+
+.text-input {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 12px;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.text-input.invalid {
+  border-color: var(--color-danger);
+  background: #fdf3f2;
+}
+
+.optional {
+  color: var(--color-text-muted);
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.field-error {
+  display: block;
+  margin-top: 6px;
+  color: var(--color-danger);
+  font-size: 0.8rem;
+}
+
+.form-error-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0 0;
+  color: var(--color-danger);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.image-preview {
+  margin: -6px 0 16px;
+}
+
+.image-preview img {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.ingredients-editor {
+  margin-bottom: 20px;
+}
+
+.ingredient-row {
+  display: grid;
+  grid-template-columns: 1fr 90px 40px;
+  gap: 8px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.amount-input {
+  padding: 12px 8px;
+}
+
+.icon-delete-btn {
+  border: none;
+  background: rgba(231, 76, 60, 0.1);
+  color: var(--color-danger);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.add-ingredient-btn {
+  border: 1px dashed var(--color-border);
+  width: 100%;
+  margin-top: 4px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.form-actions .pill-btn {
+  flex: 1;
+}
+
+.form-actions .pill-btn.light {
+  border: 1px solid var(--color-border);
+}
+
+@media (min-width: 768px) {
+  .edit-body {
+    margin: 0 24px 24px;
+    padding: 28px;
+  }
+
+  .edit-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 32px;
+    align-items: start;
+  }
+
+  .form-actions {
+    max-width: 360px;
+    margin-left: auto;
+  }
 }

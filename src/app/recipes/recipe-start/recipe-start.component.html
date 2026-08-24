@@ -1,1 +1,72 @@
-<h3>Please select a Recipe!</h3>
+<div class="search-page">
+  <div class="search-hero">
+    <app-top-bar title="" [backLink]="['/home']" [light]="true">
+      <button type="button" class="swipe-pill" (click)="onSwitchMode()">
+        <ng-container *ngIf="mode === 'recipe'; else backToRecipe">
+          Swipe to search by ingredients <i class="bi bi-chevron-right"></i>
+        </ng-container>
+        <ng-template #backToRecipe>
+          <i class="bi bi-chevron-left"></i> Back to search by recipe
+        </ng-template>
+      </button>
+      <a routerLink="/shopping-list" class="cart-link" aria-label="Shopping list">
+        <i class="bi bi-cart3"></i>
+      </a>
+    </app-top-bar>
+
+    <div class="hero-inner">
+      <div class="dots">
+        <span [class.active]="mode === 'recipe'"></span>
+        <span [class.active]="mode === 'ingredient'"></span>
+      </div>
+
+      <h1>{{ mode === 'recipe' ? 'Search by Recipe' : 'Search by Ingredients' }}</h1>
+
+      <div class="search-box">
+        <input
+          type="text"
+          [placeholder]="mode === 'recipe' ? 'What recipe are you looking for?' : 'What ingredient are you looking for?'"
+          [(ngModel)]="query"
+          (keyup.enter)="onSearch()"
+        />
+        <button type="button" (click)="onSearch()" aria-label="Search">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-content">
+    <div class="quick-links">
+      <a routerLink="/favourites" class="quick-card">
+        <span><i class="bi bi-heart-fill"></i> My favourite recipes</span>
+        <i class="bi bi-chevron-right"></i>
+      </a>
+      <button type="button" class="quick-card" (click)="onToggleHistory()">
+        <span><i class="bi bi-clock-history"></i> My search history</span>
+        <i class="bi" [class.bi-chevron-down]="!showHistory" [class.bi-chevron-up]="showHistory"></i>
+      </button>
+    </div>
+
+    <div class="history-list" *ngIf="showHistory">
+      <a *ngFor="let term of searchHistoryService.list()" (click)="onSearchHistoryTerm(term)">
+        <i class="bi bi-arrow-return-right"></i> {{ term }}
+      </a>
+      <p class="text-muted" *ngIf="!searchHistoryService.list().length">No searches yet.</p>
+    </div>
+
+    <div class="popular-head">
+      <h2>Popular recipes</h2>
+      <a class="see-all" routerLink="/recipes/results">Explore more <i class="bi bi-arrow-right"></i></a>
+    </div>
+
+    <div class="grid-2col popular-grid">
+      <app-card-grid-item
+        *ngFor="let item of popularRecipes"
+        [image]="item.recipe.imagePath"
+        [title]="item.recipe.name"
+        [link]="['/recipes', item.index]"
+      ></app-card-grid-item>
+    </div>
+  </div>
+</div>

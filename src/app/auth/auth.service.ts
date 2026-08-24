@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 
+import { environment } from '../../environments/environment';
 import { User } from './user.model';
 
 export interface AuthResponseData {
@@ -21,10 +22,14 @@ export class AuthService {
   user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
 
+  get isAuthenticated(): boolean {
+    return !!this.user.value;
+  }
+
   signup(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB9ooYejRD8fZL-o-NzNuabTPoLbgbXMUU',
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseApiKey}`,
         {
           email: email,
           password: password,
@@ -47,10 +52,33 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB9ooYejRD8fZL-o-NzNuabTPoLbgbXMUU',
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebaseApiKey}`,
         {
           email: email,
           password: password,
+          returnSecureToken: true,
+        }
+      )
+      .pipe(
+        catchError(this.handleError),
+        tap((resData) => {
+          this.handleAuthentication(
+            resData.email,
+            resData.localId,
+            resData.idToken,
+            +resData.expiresIn
+          );
+        })
+      );
+  }
+
+  loginWithGoogle(googleIdToken: string) {
+    return this.http
+      .post<AuthResponseData>(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=${environment.firebaseApiKey}`,
+        {
+          postBody: `id_token=${googleIdToken}&providerId=google.com`,
+          requestUri: window.location.origin,
           returnSecureToken: true,
         }
       )
@@ -95,7 +123,7 @@ export class AuthService {
 
   logout() {
     this.user.next(null);
-    this.router.navigate(['/auth']);
+    this.router.navigate(['/home']);
     localStorage.removeItem('userData');
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
@@ -123,22 +151,29 @@ export class AuthService {
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An Unkown Error has Occurred !!!';
+    let errorMessage = 'An unknown error has occurred. Please try again.';
     if (!errorRes.error || !errorRes.error.error) {
-      return throwError(errorMessage);
+      return throwError(() => errorMessage);
     }
     switch (errorRes.error.error.message) {
       case 'EMAIL_EXISTS':
         errorMessage =
-          'The email address is already in use by another account !!!';
+          'This email is already registered. Please log in instead.';
         break;
       case 'EMAIL_NOT_FOUND':
-        errorMessage = 'Email does not exists !!!';
+        errorMessage = 'No account found with this email. Please sign up first.';
         break;
       case 'INVALID_PASSWORD':
-        errorMessage = 'Password is invalid  !!!';
+      case 'INVALID_LOGIN_CREDENTIALS':
+        errorMessage = 'Incorrect email or password. Please try again.';
+        break;
+      case 'USER_DISABLED':
+        errorMessage = 'This account has been disabled.';
+        break;
+      case 'WEAK_PASSWORD : Password should be at least 6 characters':
+        errorMessage = 'Password should be at least 6 characters.';
         break;
     }
-    return throwError(errorMessage);
+    return throwError(() => errorMessage);
   }
 }

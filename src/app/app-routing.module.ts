@@ -2,7 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/recipes', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./social/social.module').then((m) => m.SocialModule),
+  },
   {
     path: 'recipes',
     loadChildren: () =>
@@ -19,6 +24,8 @@ const appRoutes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
+  // Any unknown path (including removed sections like /chats) falls back to Home.
+  { path: '**', redirectTo: '/home' },
 ];
 
 @NgModule({
@@ -29,5 +36,5 @@ const appRoutes: Routes = [
 })
 
 export class AppRoutingModule {
-  
+
 }

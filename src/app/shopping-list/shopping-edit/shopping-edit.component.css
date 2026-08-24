@@ -1,0 +1,46 @@
+.shopping-edit-form {
+  margin-bottom: 20px;
+}
+
+.edit-fields {
+  display: flex;
+  gap: 12px;
+}
+
+.form-group {
+  flex: 1;
+}
+
+.amount-group {
+  max-width: 110px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+}
+
+.text-input {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-family: inherit;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.edit-actions .pill-btn {
+  padding: 10px 20px;
+  font-size: 0.85rem;
+}
+
+.edit-actions .pill-btn.light {
+  border: 1px solid var(--color-border);
+}

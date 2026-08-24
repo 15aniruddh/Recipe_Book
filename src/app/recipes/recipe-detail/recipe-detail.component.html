@@ -1,36 +1,64 @@
-<div class="row">
-    <div class="col-xs-12">
-        <img [src]="recipe.imagePath" alt="{{ recipe.name }}" class="img-responsive">
-    </div>
+<div class="detail-hero" [style.backgroundImage]="'url(' + recipe.imagePath + ')'">
+  <app-top-bar title="" [backLink]="['/recipes']" [light]="true"></app-top-bar>
 </div>
-<div class="row">
-    <div class="col-xs-12">
-        <h3>{{ recipe.name }}</h3>
-    </div>
+
+<div class="card-surface detail-body">
+  <div class="title-row">
+    <h1>{{ recipe.name }}</h1>
+    <button type="button" class="heart-btn" [class.active]="isFavourite" (click)="onToggleFavourite()">
+      <i class="bi" [class.bi-heart-fill]="isFavourite" [class.bi-heart]="!isFavourite"></i>
+    </button>
+  </div>
+
+  <div class="stars-row">
+    <i
+      class="bi"
+      *ngFor="let s of stars"
+      [class.bi-star-fill]="s <= rating"
+      [class.bi-star]="s > rating"
+      (click)="onSetRating(s)"
+    ></i>
+  </div>
+
+  <div class="action-row">
+    <button type="button" class="pill-btn light action-btn" (click)="onAddToShoppingList()">
+      <i class="bi bi-cart-plus"></i> Shopping List
+    </button>
+    <button type="button" class="pill-btn light action-btn" (click)="onEditRecipe()">
+      <i class="bi bi-pencil"></i> Edit
+    </button>
+    <button type="button" class="pill-btn light action-btn danger" (click)="onDeleteRecipe()">
+      <i class="bi bi-trash"></i> Delete
+    </button>
+  </div>
+
+  <h3>Ingredients</h3>
+  <ol class="ingredients-list">
+    <li *ngFor="let ingredient of recipe.ingredients">
+      <span>{{ ingredient.name }}</span>
+      <span class="text-muted">{{ ingredient.amount }}</span>
+    </li>
+  </ol>
+
+  <button type="button" class="pill-btn primary directions-btn" (click)="onToggleDirections()">
+    {{ showDirections ? 'Hide directions' : 'See directions for preparation' }}
+  </button>
+  <p class="directions-text" *ngIf="showDirections">{{ recipe.description }}</p>
+
+  <button type="button" class="pill-btn light share-btn" (click)="onShare()">
+    <i class="bi bi-share"></i> Share
+  </button>
+  <p class="text-muted share-message" *ngIf="shareMessage">{{ shareMessage }}</p>
 </div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="nav-item dropdown">
-            <button class="nav-link dropdown-toggle text-light navbar-brand btn btn-primary" href="#" data-bs-toggle="dropdown">Manage Recipe</button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" (click)="onAddToShoppingList()" style="cursor: pointer;">To Shopping List</a></li>
-                <li><a class="dropdown-item" style="cursor: pointer;" (click)="onEditRecipe()">Edit Recipe</a></li>
-                <li><a class="dropdown-item" style="cursor: pointer;" (click)="onDeleteRecipe()">Delete Recipe</a></li>
-            </ul>
-        </div>
-        <br>
-    </div>
+
+<div class="similar-section" *ngIf="similarRecipes.length">
+  <span class="chip">{{ similarRecipes.length }} Similar Recipes to try out</span>
+  <div class="grid-2col similar-grid">
+    <app-card-grid-item
+      *ngFor="let item of similarRecipes"
+      [image]="item.recipe.imagePath"
+      [title]="item.recipe.name"
+      [link]="['/recipes', item.index]"
+    ></app-card-grid-item>
+  </div>
 </div>
-<div class="row">
-    <div class="col-xs-12">
-        {{ recipe.description }}
-    </div>
-</div>  
-<br>  
-<div class="row">
-    <div class="col-xs-12">
-        <ul class="list-group">
-            <li class="list-group-item" *ngFor="let ingredient of recipe.ingredients">{{ ingredient.name }} - {{ ingredient.amount }}</li>
-        </ul>          
-    </div>
-</div>    

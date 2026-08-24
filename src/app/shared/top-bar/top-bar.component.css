@@ -1,0 +1,42 @@
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px;
+}
+
+.top-bar.light .back-btn {
+  background: rgba(255, 255, 255, 0.35);
+  color: #fff;
+}
+
+.top-bar.light h2 {
+  color: #fff;
+}
+
+.back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+h2 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.4rem;
+  flex: 1;
+}
+
+.top-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

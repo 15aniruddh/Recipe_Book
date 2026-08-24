@@ -1,0 +1,152 @@
+.detail-hero {
+  height: 260px;
+  background-size: cover;
+  background-position: center;
+  background-color: #333;
+  border-radius: 0 0 28px 28px;
+}
+
+.detail-body {
+  margin: -18px 16px 24px;
+  padding: 24px 20px;
+}
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.title-row h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.heart-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.06);
+  color: #c9c9cf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.heart-btn.active {
+  color: var(--color-danger);
+}
+
+.stars-row {
+  color: #f1c40f;
+  font-size: 1.2rem;
+  margin-top: 8px;
+}
+
+.stars-row i {
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+.action-row {
+  display: flex;
+  gap: 10px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 10px 16px;
+  font-size: 0.82rem;
+  border: 1px solid var(--color-border);
+}
+
+.action-btn.danger {
+  color: var(--color-danger);
+}
+
+h3 {
+  font-weight: 700;
+  margin: 20px 0 10px;
+}
+
+.ingredients-list {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.ingredients-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border);
+  max-width: 320px;
+}
+
+.directions-btn {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.directions-text {
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+.share-btn {
+  width: 100%;
+  margin-top: 12px;
+  border: 1px solid var(--color-border);
+}
+
+.share-message {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.similar-section {
+  margin: 28px 16px 32px;
+}
+
+.similar-grid {
+  margin-top: 14px;
+}
+
+/* Desktop: image column on the left, recipe details on the right, with the
+   similar-recipes row spanning the full width beneath. */
+@media (min-width: 900px) {
+  :host {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 36px;
+    padding: 28px 24px 48px;
+    align-items: start;
+  }
+
+  .detail-hero {
+    /* Match the height of the details column; no sticky so it can't overlap
+       the full-width "similar recipes" row when scrolling. */
+    align-self: stretch;
+    height: 100%;
+    min-height: 560px;
+    border-radius: 24px;
+  }
+
+  .detail-body {
+    margin: 0;
+  }
+
+  .ingredients-list li {
+    max-width: none;
+  }
+
+  .similar-section {
+    grid-column: 1 / -1;
+    margin: 24px 0 0;
+  }
+}
