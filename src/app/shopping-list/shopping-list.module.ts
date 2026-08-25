@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { ShoppingEditComponent } from './shopping-edit/shopping-edit.component';
-import { ShoppingListComponent } from './shopping-list.component';
+import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({

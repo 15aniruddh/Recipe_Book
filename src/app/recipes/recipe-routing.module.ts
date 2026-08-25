@@ -6,7 +6,7 @@ import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 import { RecipeResolverService } from './recipe-resolver.service';
 import { RecipeSearchResultsComponent } from './recipe-search-results/recipe-search-results.component';
 import { RecipeStartComponent } from './recipe-start/recipe-start.component';
-import { RecipesComponent } from './recipes.component';
+import { RecipesComponent } from './recipes/recipes.component';
 
 const routes: Routes = [
   {
