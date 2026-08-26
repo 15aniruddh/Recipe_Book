@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { RecipesComponent } from './recipes.component';
+import { RecipesComponent } from './recipes/recipes.component';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 import { RecipeSearchResultsComponent } from './recipe-search-results/recipe-search-results.component';
 import { RecipeStartComponent } from './recipe-start/recipe-start.component';

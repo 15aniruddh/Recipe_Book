@@ -3,9 +3,9 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { environment } from '../../environments/environment';
-import { RecipeService } from '../recipes/recipe.service';
-import { AuthResponseData, AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
+import { RecipeService } from '../../recipes/recipe.service';
+import { AuthResponseData, AuthService } from '../auth.service';
 
 declare const google: any;
 
